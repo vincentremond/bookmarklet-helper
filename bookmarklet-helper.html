@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bookmarklet helper</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+</head>
+<boby>
+    <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
+        <a class="navbar-brand" href="#">
+            Bookmarklet helper
+        </a>
+    </header>
+
+    <div class="container">
+        <h2>Config</h2>
+        <form class="GenerateForm js-GenerateForm">
+            <div class="form-group">
+                <label></label>
+                <input type="text" class="GenerateForm-Text js-GenerateForm-Text" value="Bookmaklet title" />
+            </div>
+            <div class="form-group">
+                <textarea rows="20" cols="80" class="GenerateForm-Sources js-GenerateForm-Sources"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Generate bookmarklet</button>
+        </form>
+        <section class="js-Result">
+            <h2>Result</h2>
+            <p>
+                <a class="btn btn-success js-TargetLink" href="#">Text</a>
+            </p>
+            <p class="Debug js-Debug">
+                Debug :
+                <pre class="Debug-Value js-Debug-Value"></pre>
+            </p>
+        </section>
+    </div>
+    <!-- end of content -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            $('.js-Result').hide();
+
+            $('.js-GenerateForm').submit(function (eventObject) {
+                eventObject.preventDefault();
+                // generate src
+                var src = $('.js-GenerateForm-Sources').val();
+                src = src.trim();
+                src = src.replace(/[\s\r\n\t]+/gim, ' ');
+                //src = encodeURIComponent(src);
+                src = "javascript:" + src;
+                if (!src.endsWith(';')) {
+                    src = src + ';';
+                }
+                // display result
+                $('.js-Result').show();
+                $('.js-Debug-Value').text(src);
+                $('.js-TargetLink')
+                    .text($('.js-GenerateForm-Text').val())
+                    .attr('href', src);
+            });
+        });
+    </script>
+</boby>
+
+</html>
