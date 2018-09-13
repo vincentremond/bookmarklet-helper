@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
 </head>
+
 <body>
     <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
         <a class="navbar-brand" href="#">
@@ -17,27 +18,52 @@
     </header>
 
     <div class="container">
-        <h2>Config</h2>
-        <form class="GenerateForm js-GenerateForm">
-            <div class="form-group">
-                <label></label>
-                <input type="text" class="GenerateForm-Text js-GenerateForm-Text" value="Bookmaklet title" />
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#js">JS</a></li>
+            <li><a data-toggle="tab" href="#emoji">Emoji</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="js" class="tab-pane active">
+                <h2>Config</h2>
+                <form class="GenerateForm js-GenerateForm">
+                    <div class="form-group">
+                        <input type="text" class="GenerateForm-Text js-GenerateForm-Text" value="Bookmaklet title" />
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="20" cols="80" class="GenerateForm-Sources js-GenerateForm-Sources"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate bookmarklet</button>
+                </form>
+                <section class="js-Result">
+                    <h2>Result</h2>
+                    <p>
+                        <a class="btn btn-success js-TargetLink" href="#">Text</a>
+                    </p>
+                    <p class="Debug js-Debug">
+                        Debug :
+                        <pre class="Debug-Value js-Debug-Value"></pre>
+                    </p>
+                </section>
             </div>
-            <div class="form-group">
-                <textarea rows="20" cols="80" class="GenerateForm-Sources js-GenerateForm-Sources"></textarea>
+            <div id="emoji" class="tab-pane">
+                <h2>Config</h2>
+                <form class="GenerateForm emoji-GenerateForm">
+                    <div class="form-group">
+                        <input type="text" class="GenerateForm-Text emoji-GenerateForm-Text" placeholder="Emoji" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate bookmarklet</button>
+                </form>
+                <section class="emoji-Result">
+                    <h2>Result</h2>
+                    <p>
+                        <a class="btn btn-success emoji-TargetLink" href="#">Text</a>
+                    </p>
+                </section>
             </div>
-            <button type="submit" class="btn btn-primary">Generate bookmarklet</button>
-        </form>
-        <section class="js-Result">
-            <h2>Result</h2>
-            <p>
-                <a class="btn btn-success js-TargetLink" href="#">Text</a>
-            </p>
-            <p class="Debug js-Debug">
-                Debug :
-                <pre class="Debug-Value js-Debug-Value"></pre>
-            </p>
-        </section>
+        </div>
+
+
     </div>
     <!-- end of content -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -63,6 +89,19 @@
                 $('.js-Debug-Value').text(src);
                 $('.js-TargetLink')
                     .text($('.js-GenerateForm-Text').val())
+                    .attr('href', src);
+            });
+
+            $('.emoji-Result').hide();
+
+            $('.emoji-GenerateForm').submit(function (eventObject) {
+                eventObject.preventDefault();
+                var emoji = $('.emoji-GenerateForm-Text').val();
+                var src = "javascript:(function(text){ window.prompt('Copy to clipboard: Ctrl+C, Enter', text); })('" + emoji + "');"
+                // display result
+                $('.emoji-Result').show();
+                $('.emoji-TargetLink')
+                    .text(emoji)
                     .attr('href', src);
             });
         });
