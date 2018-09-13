@@ -77,6 +77,7 @@
                 eventObject.preventDefault();
                 // generate src
                 var src = $('.js-GenerateForm-Sources').val();
+                var b64 = btoa(src);
                 src = src.trim();
                 src = src.replace(/[\s\r\n\t]+/gim, ' ');
                 //src = encodeURIComponent(src);
@@ -84,6 +85,9 @@
                 if (!src.endsWith(';')) {
                     src = src + ';';
                 }
+                //
+                src = src + ' /*' + b64 + '*/';
+
                 // display result
                 $('.js-Result').show();
                 $('.js-Debug-Value').text(src);
